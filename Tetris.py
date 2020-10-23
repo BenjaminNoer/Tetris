@@ -3,11 +3,11 @@ import random
 
 pygame.init()
 pygame.font.init()
-pygame.mixer.music.load("Tetris_Theme.mp3")
 pygame.mixer.music.set_volume(0.50)
 Line_Clear = pygame.mixer.Sound('Line_Clear.mp3')
 Tetris_Sound = pygame.mixer.Sound('Tetris_Sound.mp3')
 Game_Over = pygame.mixer.Sound('Game_Over.mp3')
+Move = pygame.mixer.Sound('Move.mp3')
 
 score = 0
 lines_cleared = 0
@@ -198,6 +198,7 @@ def main():
                 pygame.display.quit()
                 quit()
             if event.type == pygame.KEYDOWN:
+                pygame.mixer.Sound.play(Move)
                 if event.key == pygame.K_LEFT:
                     current_piece.x -= 1
                     if not valid_space(current_piece, grid):
@@ -242,6 +243,7 @@ def main():
 
 def main_menu():
     global score, lines_cleared
+    Songs = ['Tetris_A.mp3', 'Tetris_B.mp3', 'Tetris_C.mp3']
     run = True
     while run:
         win.fill((0,0,0))
@@ -253,7 +255,13 @@ def main_menu():
             if event.type == pygame.KEYDOWN:
                 score = 0
                 lines_cleared = 0
-                pygame.mixer.music.play(-1)
+                random.shuffle(Songs)
+                for i in range(len(Songs)):
+                    if i == 0:
+                        pygame.mixer.music.load(Songs[i])
+                    else:
+                        pygame.mixer.music.queue(Songs[i])
+                pygame.mixer.music.play()
                 main()
     pygame.quit()
 
