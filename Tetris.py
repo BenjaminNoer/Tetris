@@ -4,7 +4,10 @@ import random
 pygame.init()
 pygame.font.init()
 pygame.mixer.music.load("Tetris_Theme.mp3")
-pygame.mixer.music.set_volume(0.07)
+pygame.mixer.music.set_volume(0.50)
+Line_Clear = pygame.mixer.Sound('Line_Clear.mp3')
+Tetris_Sound = pygame.mixer.Sound('Tetris_Sound.mp3')
+Game_Over = pygame.mixer.Sound('Game_Over.mp3')
 
 score = 0
 s_width = 800
@@ -120,12 +123,16 @@ def clear_rows(grid, locked):
                 locked[newKey] = locked.pop(key)
         if inc == 1:
             score += 40
+            pygame.mixer.Sound.play(Line_Clear)
         elif inc == 2:
             score += 100
+            pygame.mixer.Sound.play(Line_Clear)
         elif inc == 3:
             score += 300
+            pygame.mixer.Sound.play(Line_Clear)
         elif inc == 4:
             score += 1000
+            pygame.mixer.Sound.play(Tetris_Sound)
         draw_score(win, score)
         pygame.display.update()
 
@@ -214,8 +221,7 @@ def main():
             current_piece = next_piece
             next_piece = get_shape()
             change_piece = False
-            for i in range(4):
-                clear_rows(grid, locked_positions)
+            clear_rows(grid, locked_positions)
         draw_window(win)
         draw_next_shape(next_piece, win)
         draw_score(win, score)
@@ -223,7 +229,9 @@ def main():
         if check_lost(locked_positions):
             run = False
     draw_text_middle("You Lost", 40, (255,255,255), win)
+    pygame.mixer.Sound.play(Game_Over)
     pygame.display.update()
+    pygame.mixer.music.fadeout(380)
     pygame.time.delay(2000)
 
 def main_menu():
