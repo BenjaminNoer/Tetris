@@ -4,6 +4,7 @@ import random
 pygame.init()
 pygame.font.init()
 pygame.mixer.music.load("Tetris_Theme.mp3")
+pygame.mixer.music.set_volume(0.07)
 
 score = 0
 s_width = 800
