@@ -76,7 +76,6 @@ def valid_space(shape, grid):
         if pos not in accepted_positions:
             if pos[1] > -1:
                 return False
- 
     return True
 
 def check_lost(positions):
@@ -240,10 +239,14 @@ def main():
     pygame.display.update()
     pygame.mixer.music.fadeout(380)
     pygame.time.delay(2000)
+    pygame.mixer.music.load('Title.mp3')
+    pygame.mixer.music.play(0)
 
 def main_menu():
     global score, lines_cleared
     Songs = ['Tetris_A.mp3', 'Tetris_B.mp3', 'Tetris_C.mp3']
+    pygame.mixer.music.load('Title.mp3')
+    pygame.mixer.music.play(0)
     run = True
     while run:
         win.fill((0,0,0))
@@ -253,6 +256,7 @@ def main_menu():
             if event.type == pygame.QUIT:
                 run = False
             if event.type == pygame.KEYDOWN:
+                pygame.mixer.music.fadeout(100)
                 score = 0
                 lines_cleared = 0
                 random.shuffle(Songs)
