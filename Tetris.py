@@ -214,7 +214,8 @@ def main():
             current_piece = next_piece
             next_piece = get_shape()
             change_piece = False
-            clear_rows(grid, locked_positions)
+            for i in range(4):
+                clear_rows(grid, locked_positions)
         draw_window(win)
         draw_next_shape(next_piece, win)
         draw_score(win, score)
