@@ -10,6 +10,7 @@ Tetris_Sound = pygame.mixer.Sound('Tetris_Sound.mp3')
 Game_Over = pygame.mixer.Sound('Game_Over.mp3')
 
 score = 0
+lines_cleared = 0
 s_width = 800
 s_height = 700
 play_width = 300
@@ -103,7 +104,7 @@ def draw_grid(surface, row, col):
             pygame.draw.line(surface, (128,128,128), (sx + j * 30, sy), (sx + j * 30, sy + play_height))
 
 def clear_rows(grid, locked):
-    global score
+    global score, lines_cleared
     inc = 0
     for i in range(len(grid)-1,-1,-1):
         row = grid[i]
@@ -133,13 +134,17 @@ def clear_rows(grid, locked):
         elif inc == 4:
             score += 1000
             pygame.mixer.Sound.play(Tetris_Sound)
+        lines_cleared += inc
         draw_score(win, score)
         pygame.display.update()
 
 def draw_score(surface, score):
+    global lines_cleared
     font = pygame.font.SysFont('comicsans', 30)
     label = font.render('Score: ' + str(score), 1, (255,255,255))
     surface.blit(label, (75, 270))
+    label = font.render('Lines: ' + str(lines_cleared), 1, (255, 255, 255))
+    surface.blit(label, (75, 350))
 
 def draw_next_shape(shape, surface):
     font = pygame.font.SysFont('comicsans', 30)
@@ -176,8 +181,8 @@ def main():
     next_piece = get_shape()
     clock = pygame.time.Clock()
     fall_time = 0
+    fall_speed = 0.27
     while run:
-        fall_speed = 0.27
         grid = create_grid(locked_positions)
         fall_time += clock.get_rawtime()
         clock.tick()
@@ -219,6 +224,7 @@ def main():
                 p = (pos[0], pos[1])
                 locked_positions[p] = current_piece.color
             current_piece = next_piece
+            fall_speed -= (fall_speed / 100)
             next_piece = get_shape()
             change_piece = False
             clear_rows(grid, locked_positions)
@@ -228,14 +234,14 @@ def main():
         pygame.display.update()
         if check_lost(locked_positions):
             run = False
-    draw_text_middle("You Lost", 40, (255,255,255), win)
+    draw_text_middle("You Lost", 75, (255,255,255), win)
     pygame.mixer.Sound.play(Game_Over)
     pygame.display.update()
     pygame.mixer.music.fadeout(380)
     pygame.time.delay(2000)
 
 def main_menu():
-    global score
+    global score, lines_cleared
     run = True
     while run:
         win.fill((0,0,0))
@@ -246,6 +252,7 @@ def main_menu():
                 run = False
             if event.type == pygame.KEYDOWN:
                 score = 0
+                lines_cleared = 0
                 pygame.mixer.music.play(-1)
                 main()
     pygame.quit()
