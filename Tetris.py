@@ -4,10 +4,10 @@ import random
 pygame.init()
 pygame.font.init()
 pygame.mixer.music.set_volume(0.50)
-Line_Clear = pygame.mixer.Sound('Line_Clear.mp3')
-Tetris_Sound = pygame.mixer.Sound('Tetris_Sound.mp3')
-Game_Over = pygame.mixer.Sound('Game_Over.mp3')
-Move = pygame.mixer.Sound('Move.mp3')
+Line_Clear = pygame.mixer.Sound('Sounds/Line_Clear.mp3')
+Tetris_Sound = pygame.mixer.Sound('Sounds/Tetris_Sound.mp3')
+Game_Over = pygame.mixer.Sound('Sounds/Game_Over.mp3')
+Move = pygame.mixer.Sound('Sounds/Move.mp3')
 
 score = 0
 lines_cleared = 0
@@ -239,13 +239,13 @@ def main():
     pygame.display.update()
     pygame.mixer.music.fadeout(380)
     pygame.time.delay(2000)
-    pygame.mixer.music.load('Title.mp3')
+    pygame.mixer.music.load('Music/Title.mp3')
     pygame.mixer.music.play(0)
 
 def main_menu():
     global score, lines_cleared
-    Songs = ['Tetris_A.mp3', 'Tetris_B.mp3', 'Tetris_C.mp3']
-    pygame.mixer.music.load('Title.mp3')
+    Songs = ['Music/Tetris_A.mp3', 'Music/Tetris_B.mp3', 'Music/Tetris_C.mp3']
+    pygame.mixer.music.load('Music/Title.mp3')
     pygame.mixer.music.play(0)
     run = True
     while run:
